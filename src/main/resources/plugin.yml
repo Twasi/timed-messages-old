@@ -1,0 +1,4 @@
+name: "Timed Messages"
+main: net.twasiplugin.timedmessages.Plugin
+version: 1.0
+author: Twasi Team
