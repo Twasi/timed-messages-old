@@ -1,0 +1,10 @@
+twasi.timer.add.success=Ein Timer für %s wurde erfolgreich erstellt und aktiviert! PogChamp
+twasi.timer.add.notfound=Der Befehl %s wurde nicht gefunden LUL
+twasi.timer.add.notallowed=Der Befehl %s kann nicht als Timer hinzugefügt werden RuleFive
+twasi.timer.add.double=Der Befehl %s hat bereits einen Timer SwiftRage
+twasi.timer.add.help=Bitte schreibe !addtimer <command> <Interval in Sekunden> 4Head
+twasi.timer.add.lowinterval=Bitte lege ein Interval von mindestens 30 Sekunden fest NotLikeThis
+
+twasi.timer.remove.success=Der Timer für %s wurde entfernt BibleThump
+twasi.timer.remove.notfound=Es existiert kein Timer für den befehl %s DansGame
+twasi.timer.remove.help=Bitte schreibe !deltimer <command> 4Head

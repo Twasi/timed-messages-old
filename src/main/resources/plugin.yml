@@ -1,4 +1,18 @@
 name: "Timed Messages"
 main: net.twasiplugin.timedmessages.Plugin
+description: Timed messages for Twasi
+helpText: "Lul"
 version: 1.0
 author: Twasi Team
+
+commands:
+  - addtimer
+  - deltimer
+  - timer
+
+permissions:
+  - twasi.timer.add
+  - twasi.timer.delete
+  - twasi.timer.list
+  - twasi.timer.enable
+  - twasi.timer.disable
