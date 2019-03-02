@@ -2,6 +2,7 @@ package net.twasiplugin.timedmessages.service;
 
 import net.twasi.core.database.models.User;
 import net.twasi.core.interfaces.api.TwasiInterface;
+import net.twasi.core.logger.TwasiLogger;
 import net.twasi.core.models.Streamer;
 import net.twasi.core.plugin.api.TwasiCustomCommand;
 import net.twasi.core.plugin.api.TwasiUserPlugin;
@@ -26,6 +27,7 @@ public class TimerService implements IService {
     }
 
     public void startTimers(TwasiUserPlugin twasiUserPlugin) {
+        TwasiLogger.log.debug("Starting timers for user " + twasiUserPlugin.getTwasiInterface().getStreamer().getUser().getTwitchAccount().getDisplayName());
         stopTimers(twasiUserPlugin); // Stop timers if already running
         List<Timer> list = new ArrayList<>(); // Create empty list
         registeredTimers.put(twasiUserPlugin.getTwasiInterface().getStreamer().getUser().getId().toString(), list); // put empty list into registeredTrackers
@@ -33,12 +35,14 @@ public class TimerService implements IService {
             TimerEntity entity = repo.getTimerForUserAndCommand(twasiUserPlugin.getTwasiInterface().getStreamer().getUser(), command.getCommandName()); // Check if there is a timer registered
             if (entity != null) {// If there is a timer registered...
                 list.add(new Timer(twasiUserPlugin.getTwasiInterface(), command.getCommandName(), entity.getInterval(), entity.isEnabled())); // ... let the timer-party begin! :o
+                TwasiLogger.log.debug("Timer for command " + entity.getCommand() + " enabled");
             }
         }
     }
 
     // Function to stop (and remove from cache, not from db) all timers for user if there are any timers running
     public void stopTimers(TwasiUserPlugin twasiUserPlugin) {
+        TwasiLogger.log.debug("Stopping timers for user " + twasiUserPlugin.getTwasiInterface().getStreamer().getUser().getTwitchAccount().getDisplayName());
         List<Timer> timers = registeredTimers.get(twasiUserPlugin.getTwasiInterface().getStreamer().getUser().getId().toString()); // Load timers
         if (timers != null) {
             for (Timer timer : timers) timer.setEnable(false); // Disable all timers if there are any
@@ -88,6 +92,7 @@ public class TimerService implements IService {
 
     // A function to add (and start if online) a timer
     public void registerTimer(TwasiInterface twasiInterface, String command, int interval) throws TimerException {
+        TwasiLogger.log.debug("Trying to register new timer for user " + twasiInterface.getStreamer().getUser().getTwitchAccount().getDisplayName() + " for command " + command);
         Streamer streamer = twasiInterface.getStreamer();
         User user = streamer.getUser();
         if (interval < 1) throw new TooLowIntervalException();
@@ -103,8 +108,10 @@ public class TimerService implements IService {
         if (!exists) throw new CommandDoesNotExistException();
         timer = new TimerEntity(user, command, interval, true);
         repo.add(timer);
+        TwasiLogger.log.debug("Timer was registered and committed to database");
         if (hasTimersEnabled(user)) {
             registeredTimers.get(user.getId().toString()).add(new Timer(twasiInterface, command, interval));
+            TwasiLogger.log.debug("Timer was started");
         }
     }
 
