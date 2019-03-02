@@ -1,7 +1,8 @@
 package net.twasiplugin.timedmessages.service;
 
-import com.google.gson.Gson;
+import net.twasi.core.database.models.TwitchAccount;
 import net.twasi.core.database.models.User;
+import net.twasi.core.database.models.permissions.PermissionGroups;
 import net.twasi.core.interfaces.api.TwasiInterface;
 import net.twasi.core.logger.TwasiLogger;
 import net.twasi.core.models.Message.MessageType;
@@ -9,6 +10,8 @@ import net.twasi.core.models.Message.TwasiMessage;
 import net.twasiplugin.timedmessages.Plugin;
 import net.twasiplugin.timedmessages.service.exceptions.TimerNotRunningException;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 public class Timer extends Thread {
@@ -26,9 +29,6 @@ public class Timer extends Thread {
      * @param enable      Whether the timer should start activated or not
      */
     public Timer(TwasiInterface streamerInf, String command, int interval, boolean enable) {
-        // Prevent too short interval
-        if (interval < 10)
-            throw new IllegalArgumentException(String.format("The interval is too low"));
 
         // Set fields
         this.streamerInf = streamerInf;
@@ -41,6 +41,8 @@ public class Timer extends Thread {
         this.setDaemon(true);
 
         if (enable) start();
+
+        TwasiLogger.log.debug("Timer for user " + getTimerOwner().getTwitchAccount().getDisplayName() + " was started for command " + command);
     }
 
     public Timer(TwasiInterface streamerInf, String command, int interval) {
@@ -55,19 +57,29 @@ public class Timer extends Thread {
                 if (!enable) break; // Break if timer is disabled within this one second lol
             } catch (InterruptedException ignored) {
             }
-            TwasiLogger.log.info(2 + ": " + intervalRemaining);
             if (--intervalRemaining > 0) continue; // Wait for the next second if timer is not ready yet
-            TwasiLogger.log.info(3);
             intervalRemaining = interval; // Reset timer if triggered
-            TwasiLogger.log.info(new Gson().toJson(getTimerOwner().getTwitchAccount()));
-            streamerInf.getDispatcher().dispatch( // Simulate command event
-                    new TwasiMessage(
-                            String.format("%s%s", Plugin.botPrefix, this.command),
-                            MessageType.PRIVMSG,
-                            getTimerOwner().getTwitchAccount(),
-                            streamerInf
-                    )
-            );
+            try {
+                TwasiLogger.log.debug("Dispatching timer message for user " + getTimerOwner().getTwitchAccount().getDisplayName() + " for command " + getCommand());
+                TwitchAccount accToClone = getTimerOwner().getTwitchAccount();
+                streamerInf.getDispatcher().dispatch( // Simulate command event
+                        new TwasiMessage(
+                                String.format("%s%s", Plugin.botPrefix, this.command),
+                                MessageType.PRIVMSG,
+                                new TwitchAccount(
+                                        accToClone.getUserName(),
+                                        accToClone.getDisplayName(),
+                                        accToClone.getToken(),
+                                        accToClone.getTwitchId(),
+                                        new ArrayList<>(Collections.singletonList(PermissionGroups.BROADCASTER))
+                                ),
+                                streamerInf
+                        )
+                );
+            } catch (Exception e) {
+                TwasiLogger.log.warn("Exception while triggering timer for user " + getTimerOwner().getTwitchAccount().getDisplayName());
+                e.printStackTrace();
+            }
         }
     }
 

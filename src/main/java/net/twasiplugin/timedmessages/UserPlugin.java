@@ -3,6 +3,7 @@ package net.twasiplugin.timedmessages;
 import net.twasi.core.events.TwasiEventHandler;
 import net.twasi.core.plugin.api.TwasiCustomCommand;
 import net.twasi.core.plugin.api.TwasiUserPlugin;
+import net.twasi.core.plugin.api.events.TwasiInstallEvent;
 import net.twasi.core.services.ServiceRegistry;
 import net.twasiplugin.dependency.streamtracker.StreamTrackerService;
 import net.twasiplugin.dependency.streamtracker.events.StreamStopEvent;
@@ -20,6 +21,22 @@ public class UserPlugin extends TwasiUserPlugin {
     private boolean online = false;
 
     private List<TwasiCustomCommand> commands = new ArrayList<>();
+
+    @Override
+    public void onInstall(TwasiInstallEvent e) {
+        e.getAdminGroup().addKey("twasi.timer.*");
+        e.getModeratorsGroup().addKey("twasi.timer.list");
+        e.getModeratorsGroup().addKey("twasi.timer.enable");
+        e.getModeratorsGroup().addKey("twasi.timer.disable");
+    }
+
+    @Override
+    public void onUninstall(TwasiInstallEvent e) {
+        e.getAdminGroup().removeKey("twasi.timer.*");
+        e.getModeratorsGroup().removeKey("twasi.timer.list");
+        e.getModeratorsGroup().removeKey("twasi.timer.enable");
+        e.getModeratorsGroup().removeKey("twasi.timer.disable");
+    }
 
     public UserPlugin() {
         Thread t1 = new Thread(() -> {
