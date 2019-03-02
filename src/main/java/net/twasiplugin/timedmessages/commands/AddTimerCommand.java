@@ -30,24 +30,21 @@ public class AddTimerCommand extends BaseCommand {
         }
         String command = event.getArgs().get(0);
         try {
-            Plugin.service.registerTimer(plugin.getTwasiInterface(), command, Integer.parseInt(event.getArgs().get(1)));
-            event.reply(getTranslation("twasi.timer.add.success", command));
+            int interval = Integer.parseInt(event.getArgs().get(1));
+            Plugin.service.registerTimer(plugin.getTwasiInterface(), command, interval);
+            event.reply(getTranslation("twasi.timer.add.success", command, interval));
         } catch (CommandDoesNotExistException e) {
             event.reply(getTranslation("twasi.timer.add.notfound", command));
-            e.printStackTrace();
         } catch (CommandDoesNotAllowTimersException e) {
             event.reply(getTranslation("twasi.timer.add.notallowed", command));
-            e.printStackTrace();
         } catch (CommandAlreadyHasTimerException e) {
             event.reply(getTranslation("twasi.timer.add.double", command));
-            e.printStackTrace();
         } catch (TooLowIntervalException e) {
             event.reply(getTranslation("twasi.timer.add.lowinterval"));
-            e.printStackTrace();
         } catch (NumberFormatException e) {
             event.reply(getHelpText());
-            e.printStackTrace();
         } catch (Exception e) {
+            event.reply(getTranslation("twasi.timer.error"));
             e.printStackTrace();
         }
     }

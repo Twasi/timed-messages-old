@@ -1,7 +1,6 @@
 package net.twasiplugin.timedmessages;
 
 import net.twasi.core.plugin.TwasiPlugin;
-import net.twasi.core.plugin.api.TwasiUserPlugin;
 import net.twasi.core.services.ServiceRegistry;
 import net.twasi.core.services.providers.config.ConfigService;
 import net.twasiplugin.timedmessages.service.TimerService;
@@ -18,8 +17,8 @@ public class Plugin extends TwasiPlugin {
         botPrefix = configService.getCatalog().bot.prefix;
     }
 
-    public Class<? extends TwasiUserPlugin> getUserPluginClass() {
-        return UserPlugin.class;
+    public Class<? extends net.twasi.core.plugin.api.TwasiUserPlugin> getUserPluginClass() {
+        return TwasiUserPlugin.class;
     }
 
 }

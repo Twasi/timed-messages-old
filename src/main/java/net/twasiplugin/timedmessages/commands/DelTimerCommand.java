@@ -3,6 +3,7 @@ package net.twasiplugin.timedmessages.commands;
 import net.twasi.core.plugin.api.TwasiCustomCommandEvent;
 import net.twasi.core.plugin.api.TwasiUserPlugin;
 import net.twasiplugin.timedmessages.Plugin;
+import net.twasiplugin.timedmessages.service.exceptions.CommandHasNoTimerException;
 
 public class DelTimerCommand extends BaseCommand {
 
@@ -20,18 +21,22 @@ public class DelTimerCommand extends BaseCommand {
 
     @Override
     public void postProcess(TwasiCustomCommandEvent event) {
+        String timer = event.getArgs().get(0);
         try {
-            Plugin.service.removeTimer(plugin.getTwasiInterface().getStreamer().getUser(), event.getArgs().get(0));
-            event.reply("Erfolgreich entfernt #DEBUG");
+            Plugin.service.removeTimer(plugin, timer);
+            event.reply(getTranslation("twasi.timer.remove.success", timer));
+        } catch (CommandHasNoTimerException e) {
+            event.reply(getTranslation("twasi.timer.notfound", timer));
+            e.printStackTrace();
         } catch (Exception e) {
-            event.reply("Ein Fehler ist aufgetreten #DEBUG");
+            event.reply(getTranslation("twasi.timer.error"));
             e.printStackTrace();
         }
     }
 
     @Override
     public String getHelpText() {
-        return null;
+        return getTranslation("twasi.timer.remove.help");
     }
 
     @Override

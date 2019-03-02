@@ -1,10 +1,26 @@
-twasi.timer.add.success=Ein Timer für %s wurde erfolgreich erstellt und aktiviert! PogChamp
-twasi.timer.add.notfound=Der Befehl %s wurde nicht gefunden LUL
+twasi.timer.add.success=Ein Timer für %s wurde erfolgreich erstellt und aktiviert (%d Minute(n)) PogChamp
+twasi.timer.add.notfound=Der Befehl %s existiert nicht oder kann nicht als Timer hinzugefügt werden LUL
 twasi.timer.add.notallowed=Der Befehl %s kann nicht als Timer hinzugefügt werden RuleFive
 twasi.timer.add.double=Der Befehl %s hat bereits einen Timer SwiftRage
-twasi.timer.add.help=Bitte schreibe !addtimer <command> <Interval in Sekunden> 4Head
-twasi.timer.add.lowinterval=Bitte lege ein Interval von mindestens 30 Sekunden fest NotLikeThis
+twasi.timer.add.help=Bitte schreibe !addtimer [command] [Interval in Minuten] 4Head
+twasi.timer.add.lowinterval=Bitte lege ein Interval von mindestens einer Minute fest NotLikeThis
 
-twasi.timer.remove.success=Der Timer für %s wurde entfernt BibleThump
-twasi.timer.remove.notfound=Es existiert kein Timer für den befehl %s DansGame
-twasi.timer.remove.help=Bitte schreibe !deltimer <command> 4Head
+twasi.timer.help=Bitte schreibe !timer [enable|disable|list] (command) 4Head
+twasi.timer.notfound=Es wurde kein Timer für den Befehl %s gefunden WutFace
+
+twasi.timer.remove.success=Der Timer für %s wurde entfernt KevinTurtle
+twasi.timer.remove.help=Bitte schreibe !deltimer [command] 4Head
+
+twasi.timer.enable.alreadyenabled=Der Timer für den Befehl %s ist bereits aktiviert RuleFive
+twasi.timer.enable.success=Der Timer für den Befehl %s wurde erfolgreich aktiviert MingLee
+
+twasi.timer.disable.alreadydisabled=Der Timer für den Befehl %s ist bereits deaktiviert RuleFive
+twasi.timer.disable.success=Der Timer für den Befehl %s wurde erfolgreich deaktiviert MingLee
+
+twasi.timer.list.notimers=In diesem Channel gibt es noch keine Timer TheIlluminati
+twasi.timer.list.success.multi=Aktive Timer (command | interval | status): %s
+twasi.timer.list.success.single=Für den Befehl %s existiert ein Timer mit einem Interval von %d Minuten. Der Timer ist %s SeemsGood
+twasi.timer.list.success.active=aktiviert
+twasi.timer.list.success.inactive=deaktiviert
+
+twasi.timer.error=Es ist ein unerwarteter Fehler aufgetreten. Bitte kontaktiere das Twasi Team, wenn du Hilfe benötigst. BibleThump

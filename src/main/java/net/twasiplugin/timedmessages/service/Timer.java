@@ -53,7 +53,7 @@ public class Timer extends Thread {
     public void run() {
         while (enable) {
             try {
-                TimeUnit.SECONDS.sleep(1); // Check every second
+                TimeUnit.MINUTES.sleep(1); // Check every minute
                 if (!enable) break; // Break if timer is disabled within this one second lol
             } catch (InterruptedException ignored) {
             }
@@ -110,7 +110,7 @@ public class Timer extends Thread {
         if (!wasAlreadyEnabled && enable) start(); // Start loop if it was not running
     }
 
-    public int getNextTriggerInSeconds() throws TimerNotRunningException {
+    public int getNextTriggerInMinutes() throws TimerNotRunningException {
         if (!enable) throw new TimerNotRunningException();
         return intervalRemaining;
     }
