@@ -27,6 +27,7 @@ public class TimerCommand extends BaseCommand {
         User user = e.getStreamer().getUser();
         switch (e.getArgs().get(0).toLowerCase()) {
             case "list":
+            case "info":
                 if (!user.hasPermission(e.getSender(), "twasi.timer.list")) return;
                 String enabled = getTranslation("twasi.timer.list.success.active"), disabled = getTranslation("twasi.timer.list.success.inactive");
                 if (e.getArgs().size() < 2) {
@@ -37,7 +38,7 @@ public class TimerCommand extends BaseCommand {
                     }
                     StringBuilder timerString = new StringBuilder();
                     for (TimerEntity entity : timers) {
-                        timerString.append(", (").append(entity.getCommand()).append(" | ").append(entity.getInterval()).append(" | ").append(entity.isEnabled() ? enabled : disabled).append(")");
+                        timerString.append(", ").append(getTranslation("twasi.timer.list.success.multi.format", entity.getCommand(), entity.getInterval(), entity.isEnabled() ? enabled : enabled));
                     }
                     e.reply(getTranslation("twasi.timer.list.success.multi", timerString.toString().substring(2)));
                 } else {

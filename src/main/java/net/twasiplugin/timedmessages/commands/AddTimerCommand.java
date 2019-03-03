@@ -32,7 +32,7 @@ public class AddTimerCommand extends BaseCommand {
         try {
             int interval = Integer.parseInt(event.getArgs().get(1));
             Plugin.service.registerTimer(plugin.getTwasiInterface(), command, interval);
-            event.reply(getTranslation("twasi.timer.add.success", command, interval));
+            event.reply(getTranslation("twasi.timer.add.success", command, interval, getTranslation("twasi.timer.add.success.minute" + (interval > 1 ? "s" : ""))));
         } catch (CommandDoesNotExistException e) {
             event.reply(getTranslation("twasi.timer.add.notfound", command));
         } catch (CommandDoesNotAllowTimersException e) {

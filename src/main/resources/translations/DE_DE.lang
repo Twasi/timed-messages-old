@@ -1,11 +1,13 @@
-twasi.timer.add.success=Ein Timer für %s wurde erfolgreich erstellt und aktiviert (%d Minute(n)) PogChamp
+twasi.timer.add.success=Ein Timer für %s wurde erfolgreich erstellt und aktiviert (%d %s) PogChamp
+twasi.timer.add.success.minute=Minute
+twasi.timer.add.success.minutes=Minuten
 twasi.timer.add.notfound=Der Befehl %s existiert nicht oder kann nicht als Timer hinzugefügt werden LUL
 twasi.timer.add.notallowed=Der Befehl %s kann nicht als Timer hinzugefügt werden RuleFive
 twasi.timer.add.double=Der Befehl %s hat bereits einen Timer SwiftRage
 twasi.timer.add.help=Bitte schreibe !addtimer [command] [Interval in Minuten] 4Head
 twasi.timer.add.lowinterval=Bitte lege ein Interval von mindestens einer Minute fest NotLikeThis
 
-twasi.timer.help=Bitte schreibe !timer [enable|disable|list] (command) 4Head
+twasi.timer.help=Bitte schreibe !timer [enable | disable | list/info] (command) 4Head
 twasi.timer.notfound=Es wurde kein Timer für den Befehl %s gefunden WutFace
 
 twasi.timer.remove.success=Der Timer für %s wurde entfernt KevinTurtle
@@ -19,6 +21,7 @@ twasi.timer.disable.success=Der Timer für den Befehl %s wurde erfolgreich deakt
 
 twasi.timer.list.notimers=In diesem Channel gibt es noch keine Timer TheIlluminati
 twasi.timer.list.success.multi=Aktive Timer (command | interval | status): %s
+twasi.timer.list.success.multi.format=(%s | %dm | %s)
 twasi.timer.list.success.single=Für den Befehl %s existiert ein Timer mit einem Interval von %d Minuten. Der Timer ist %s SeemsGood
 twasi.timer.list.success.active=aktiviert
 twasi.timer.list.success.inactive=deaktiviert
