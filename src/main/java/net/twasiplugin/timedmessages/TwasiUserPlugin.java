@@ -18,6 +18,7 @@ import java.util.List;
 
 public class TwasiUserPlugin extends net.twasi.core.plugin.api.TwasiUserPlugin {
 
+    private boolean active = true;
     private List<TwasiCustomCommand> commands = new ArrayList<>();
 
     @Override
@@ -34,6 +35,7 @@ public class TwasiUserPlugin extends net.twasi.core.plugin.api.TwasiUserPlugin {
         e.getModeratorsGroup().removeKey("twasi.timer.list");
         e.getModeratorsGroup().removeKey("twasi.timer.enable");
         e.getModeratorsGroup().removeKey("twasi.timer.disable");
+        active = false;
         Plugin.service.stopTimers(TwasiUserPlugin.this);
     }
 
@@ -46,20 +48,23 @@ public class TwasiUserPlugin extends net.twasi.core.plugin.api.TwasiUserPlugin {
         sts.registerStreamTrackEvent(this.getTwasiInterface().getStreamer().getUser(), new StreamTrackerService.TwasiStreamTrackEventHandler() {
             @Override
             public void on(StreamTrackEvent streamTrackEvent) {
-                if (!Plugin.service.hasTimersEnabled(getTwasiInterface().getStreamer().getUser()))
-                    Plugin.service.startTimers(TwasiUserPlugin.this);
+                if (active)
+                    if (!Plugin.service.hasTimersEnabled(getTwasiInterface().getStreamer().getUser()))
+                        Plugin.service.startTimers(TwasiUserPlugin.this);
             }
         });
         sts.registerStreamStopEvent(this.getTwasiInterface().getStreamer().getUser(), new TwasiEventHandler<StreamStopEvent>() {
             @Override
             public void on(StreamStopEvent streamStopEvent) {
-                Plugin.service.stopTimers(TwasiUserPlugin.this);
+                if (active)
+                    Plugin.service.stopTimers(TwasiUserPlugin.this);
             }
         });
     }
 
     @Override
     public void onDisable(TwasiDisableEvent e) {
+        active = false;
         Plugin.service.stopTimers(TwasiUserPlugin.this);
     }
 
