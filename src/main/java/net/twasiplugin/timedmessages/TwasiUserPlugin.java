@@ -2,6 +2,7 @@ package net.twasiplugin.timedmessages;
 
 import net.twasi.core.events.TwasiEventHandler;
 import net.twasi.core.plugin.api.TwasiCustomCommand;
+import net.twasi.core.plugin.api.events.TwasiDisableEvent;
 import net.twasi.core.plugin.api.events.TwasiInstallEvent;
 import net.twasi.core.services.ServiceRegistry;
 import net.twasiplugin.dependency.streamtracker.StreamTrackerService;
@@ -61,6 +62,11 @@ public class TwasiUserPlugin extends net.twasi.core.plugin.api.TwasiUserPlugin {
         });
         t1.setDaemon(true);
         t1.start();
+    }
+
+    @Override
+    public void onDisable(TwasiDisableEvent e) {
+        Plugin.service.stopTimers(TwasiUserPlugin.this);
     }
 
     @Override
