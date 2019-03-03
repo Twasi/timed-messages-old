@@ -7,7 +7,6 @@ import net.twasi.core.interfaces.api.TwasiInterface;
 import net.twasi.core.logger.TwasiLogger;
 import net.twasi.core.models.Message.MessageType;
 import net.twasi.core.models.Message.TwasiMessage;
-import net.twasiplugin.timedmessages.Plugin;
 import net.twasiplugin.timedmessages.service.exceptions.TimerNotRunningException;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class Timer extends Thread {
                 TwitchAccount accToClone = getTimerOwner().getTwitchAccount();
                 streamerInf.getDispatcher().dispatch( // Simulate command event
                         new TwasiMessage(
-                                String.format("%s%s", Plugin.botPrefix, this.command),
+                                String.format("%s", this.command),
                                 MessageType.PRIVMSG,
                                 new TwitchAccount(
                                         accToClone.getUserName(),
