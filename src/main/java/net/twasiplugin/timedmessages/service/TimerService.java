@@ -133,15 +133,17 @@ public class TimerService implements IService {
     }
 
     // A function to add (and start if online) a timer
-    public void registerTimer(TwasiInterface twasiInterface, String command, int interval) throws TimerException {
-        TwasiLogger.log.debug("Trying to register new timer for user " + twasiInterface.getStreamer().getUser().getTwitchAccount().getDisplayName() + " for command " + command);
+    public TimerEntity registerTimer(TwasiUserPlugin twasiUserPlugin, String command, int interval) throws TimerException {
+        TwasiInterface twasiInterface = twasiUserPlugin.getTwasiInterface();
         Streamer streamer = twasiInterface.getStreamer();
         User user = streamer.getUser();
+        TwasiLogger.log.debug("Trying to register new timer for user " + user.getTwitchAccount().getDisplayName() + " for command " + command);
 
         if (interval < 1) throw new TooLowIntervalException();
 
         TimerEntity timer = repo.getTimerForUserAndCommand(user, command);
-        if (timer != null) throw new CommandAlreadyHasTimerException();
+        if (timer != null && getTimersForUser(twasiUserPlugin).contains(timer))
+            throw new CommandAlreadyHasTimerException();
 
         boolean exists = false;
         for (TwasiCustomCommand cmd : twasiInterface.getCustomCommands())
@@ -156,11 +158,11 @@ public class TimerService implements IService {
                 if (cmd.getName().equalsIgnoreCase(command)) exists = true;
         }
         if (!exists && !command.startsWith(Plugin.botPrefix)) {
-            registerTimer(twasiInterface, Plugin.botPrefix + command, interval);
-            return;
+            return registerTimer(twasiUserPlugin, Plugin.botPrefix + command, interval);
         }
         if (!exists) throw new CommandDoesNotExistException();
 
+        if (timer != null) repo.removeTimerEntity(timer);
         timer = new TimerEntity(user, command, interval, true);
         repo.add(timer);
         TwasiLogger.log.debug("Timer was registered and committed to database");
@@ -169,10 +171,12 @@ public class TimerService implements IService {
             registeredTimers.get(user.getId().toString()).add(new Timer(twasiInterface, command, interval));
             TwasiLogger.log.debug("Timer was started");
         }
+
+        return timer;
     }
 
     // Function to remove (and stop if running) a timer
-    public void removeTimer(TwasiUserPlugin twasiUserPlugin, String command) throws TimerException {
+    public TimerEntity removeTimer(TwasiUserPlugin twasiUserPlugin, String command) throws TimerException {
         TimerEntity entity = getTimerEntityForUserAndCommand(twasiUserPlugin, command); // Get corresponding timer
         if (entity == null) throw new CommandHasNoTimerException(); // Check if exists
         repo.removeTimerEntity(entity); // If it exists remove it from database
@@ -187,6 +191,7 @@ public class TimerService implements IService {
                     break; // No need to go on
                 }
         }
+        return entity;
     }
 
     // Function to activate/deactivate a specific timer

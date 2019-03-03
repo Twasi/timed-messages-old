@@ -3,6 +3,7 @@ package net.twasiplugin.timedmessages.commands;
 import net.twasi.core.plugin.api.TwasiCustomCommandEvent;
 import net.twasi.core.plugin.api.TwasiUserPlugin;
 import net.twasiplugin.timedmessages.Plugin;
+import net.twasiplugin.timedmessages.database.TimerEntity;
 import net.twasiplugin.timedmessages.service.exceptions.CommandAlreadyHasTimerException;
 import net.twasiplugin.timedmessages.service.exceptions.CommandDoesNotAllowTimersException;
 import net.twasiplugin.timedmessages.service.exceptions.CommandDoesNotExistException;
@@ -31,8 +32,8 @@ public class AddTimerCommand extends BaseCommand {
         String command = event.getArgs().get(0);
         try {
             int interval = Integer.parseInt(event.getArgs().get(1));
-            Plugin.service.registerTimer(plugin.getTwasiInterface(), command, interval);
-            event.reply(getTranslation("twasi.timer.add.success", command, interval, getTranslation("twasi.timer.add.success.minute" + (interval > 1 ? "s" : ""))));
+            TimerEntity entity = Plugin.service.registerTimer(plugin, command, interval);
+            event.reply(getTranslation("twasi.timer.add.success", entity.getCommand(), entity.getInterval(), getTranslation("twasi.timer.add.success.minute" + (interval > 1 ? "s" : ""))));
         } catch (CommandDoesNotExistException e) {
             event.reply(getTranslation("twasi.timer.add.notfound", command));
         } catch (CommandDoesNotAllowTimersException e) {
