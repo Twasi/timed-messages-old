@@ -20,6 +20,7 @@ import net.twasiplugin.timedmessages.service.exceptions.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TimerService implements IService {
     private HashMap<String, List<Timer>> registeredTimers;
@@ -142,7 +143,7 @@ public class TimerService implements IService {
         if (interval < 1) throw new TooLowIntervalException();
 
         TimerEntity timer = repo.getTimerForUserAndCommand(user, command);
-        if (timer != null && getTimersForUser(twasiUserPlugin).contains(timer))
+        if (timer != null && getTimersForUser(twasiUserPlugin).stream().map(t -> t.getId().toString()).collect(Collectors.toList()).contains(timer.getId().toString()))
             throw new CommandAlreadyHasTimerException();
 
         boolean exists = false;
