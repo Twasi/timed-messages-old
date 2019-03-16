@@ -128,6 +128,10 @@ public class TimerService implements IService {
         return timers; // And finally return our timers
     }
 
+    public List<Timer> getRunningTimersForUser(User user) {
+        return this.registeredTimers.get(user.getId().toString());
+    }
+
     // Function to look up if there are currently timers running
     public boolean hasTimersEnabled(User user) {
         return registeredTimers.get(user.getId().toString()) != null; // Timers are enabled if there is a list (no matter whether empty or not)
