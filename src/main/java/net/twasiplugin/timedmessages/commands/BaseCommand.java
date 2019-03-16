@@ -1,10 +1,10 @@
 package net.twasiplugin.timedmessages.commands;
 
-import net.twasi.core.plugin.api.TwasiCustomCommand;
-import net.twasi.core.plugin.api.TwasiCustomCommandEvent;
 import net.twasi.core.plugin.api.TwasiUserPlugin;
+import net.twasi.core.plugin.api.customcommands.TwasiCustomCommandEvent;
+import net.twasi.core.plugin.api.customcommands.TwasiPluginCommand;
 
-public abstract class BaseCommand extends TwasiCustomCommand {
+public abstract class BaseCommand extends TwasiPluginCommand {
 
     public BaseCommand(TwasiUserPlugin twasiUserPlugin) {
         super(twasiUserPlugin);

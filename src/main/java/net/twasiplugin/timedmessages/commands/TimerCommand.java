@@ -1,7 +1,7 @@
 package net.twasiplugin.timedmessages.commands;
 
 import net.twasi.core.database.models.User;
-import net.twasi.core.plugin.api.TwasiCustomCommandEvent;
+import net.twasi.core.plugin.api.customcommands.TwasiCustomCommandEvent;
 import net.twasiplugin.timedmessages.Plugin;
 import net.twasiplugin.timedmessages.TwasiUserPlugin;
 import net.twasiplugin.timedmessages.database.TimerEntity;

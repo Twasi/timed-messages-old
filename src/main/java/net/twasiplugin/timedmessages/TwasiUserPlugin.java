@@ -1,7 +1,7 @@
 package net.twasiplugin.timedmessages;
 
 import net.twasi.core.events.TwasiEventHandler;
-import net.twasi.core.plugin.api.TwasiCustomCommand;
+import net.twasi.core.plugin.api.customcommands.TwasiPluginCommand;
 import net.twasi.core.plugin.api.events.TwasiDisableEvent;
 import net.twasi.core.plugin.api.events.TwasiEnableEvent;
 import net.twasi.core.plugin.api.events.TwasiInstallEvent;
@@ -19,7 +19,7 @@ import java.util.List;
 public class TwasiUserPlugin extends net.twasi.core.plugin.api.TwasiUserPlugin {
 
     private boolean active = true;
-    private List<TwasiCustomCommand> commands = new ArrayList<>();
+    private List<TwasiPluginCommand> commands = new ArrayList<>();
 
     @Override
     public void onInstall(TwasiInstallEvent e) {
@@ -69,7 +69,7 @@ public class TwasiUserPlugin extends net.twasi.core.plugin.api.TwasiUserPlugin {
     }
 
     @Override
-    public List<TwasiCustomCommand> getCommands() {
+    public List<TwasiPluginCommand> getCommands() {
         return commands;
     }
 }
